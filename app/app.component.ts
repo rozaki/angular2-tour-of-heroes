@@ -1,25 +1,28 @@
 import {Component} from 'angular2/core';
-interface Hero {
-  id: number;
-  name: string;
-}
+import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
+import {HeroService} from './hero.service';
+import {HeroesComponent} from './heroes.component';
 
 @Component({
-    selector: 'my-app',
-    template: `
-      <h1>{{title}}</h1>
-      <h2>{{hero.name}} details!</h2>
-      <div><label>id: </label>{{hero.id}}</div>
-      <div>
-        <label>name: </label>
-        <div><input [(ngModel)]="hero.name" placeholder="name"></div>
-      </div>
-      `
+  selector: 'my-app',
+  template: `
+    <h1>{{title}}</h1>
+    <my-heroes></my-heroes>
+    <router-outlet>
+  `,
+  directives: [ROUTER_DIRECTIVES],
+  providers: [
+    ROUTER_PROVIDERS,
+    HeroService
+  ]
 })
+@RouteConfig([
+  {
+    path: '/heroes',
+    name: 'Heroes',
+    component: HeroesComponent
+  }
+])
 export class AppComponent {
-    public title = 'Tour of Heroes';
-    public hero: Hero = {
-        id: 1,
-        name: 'Windstorm'
-    };
- }
+  title = 'Tour of Heroes';
+}
